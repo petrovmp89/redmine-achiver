@@ -9,21 +9,19 @@ module RedmineAchiever
         end
       
         def send_update_achiever_notification
-          notification_parameters = { time_entry_id: self.id,
-                                      project_id: self.project_id,
-                                      project_name: Project.find(self.project_id).name,
-                                      user_id: self.user_id,
-                                      user_name: User.find(self.user_id).mail,
-                                      hours: self.hours,
-                                      status: 'update',
-                                      source: 'redmine' }
+          notification_parameters = { time_entry_id: id,
+                                      project_id: project_id,
+                                      project_name: Project.find(project_id).name,
+                                      user_id: user_id,
+                                      user_name: User.find(user_id).mail,
+                                      hours: hours,
+                                      status: 'update' }
           send_achiever_notification(notification_parameters)
         end
 
         def send_destroy_achiever_notification
-          notification_parameters = { time_entry_id: self.id,
-                                      status: 'destroy',
-                                      source: 'redmine' }
+          notification_parameters = { time_entry_id: id,
+                                      status: 'destroy' }
           send_achiever_notification(notification_parameters)
         end
 
