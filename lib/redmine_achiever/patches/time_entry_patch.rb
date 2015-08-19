@@ -15,18 +15,20 @@ module RedmineAchiever
                                       user_id: user_id,
                                       user_name: User.find(user_id).mail,
                                       hours: hours,
-                                      status: 'update' }
+                                      status: 'updated' }
           send_achiever_notification(notification_parameters)
         end
 
         def send_destroy_achiever_notification
           notification_parameters = { time_entry_id: id,
-                                      status: 'destroy' }
+                                      status: 'deleted' }
           send_achiever_notification(notification_parameters)
         end
 
         def send_achiever_notification(notification_parameters)
           uri = URI.parse(Setting.plugin_redmine_achiever['achiever_url'])
+          puts "-"*50
+	  puts notification_parameters.to_json
           Net::HTTP.new(uri.host, uri.port).start do |client|
             request                 = Net::HTTP::Post.new(uri.path)
             request.body            = notification_parameters.to_json
